@@ -17,14 +17,11 @@ public class CustomProducerCallbackWithCustomPartitioner {
 
         // 2 发送数据
         for (int i = 0; i < 500; i++) {
-            stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i), new Callback() {
-                @Override
-                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                    if (e == null){
-                        System.out.println("topic is = "+recordMetadata.topic()+" partition = "+ recordMetadata.partition());
-                    }
-
+            stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i), (recordMetadata, e) -> {
+                if (e == null){
+                    System.out.println("topic is = "+recordMetadata.topic()+" partition = "+ recordMetadata.partition());
                 }
+
             });
         }
 
