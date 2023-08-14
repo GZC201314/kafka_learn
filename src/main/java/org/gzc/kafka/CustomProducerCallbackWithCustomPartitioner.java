@@ -42,6 +42,9 @@ public class CustomProducerCallbackWithCustomPartitioner {
         // 在这边设置自定义的Partitioner
         properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,MyPartitioner.class.getName());
 
+        // 重试次数
+        properties.put(ProducerConfig.RETRIES_CONFIG,"3");
+
         return new KafkaProducer<>(properties);
     }
 }
