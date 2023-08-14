@@ -1,6 +1,8 @@
 package org.gzc.kafka;
 
-import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
@@ -8,7 +10,7 @@ import java.util.Properties;
 /**
  * @author gzc
  */
-public class CustomProducerCallbackWithCustomPartitioner {
+public class CustomProducerAcks {
     public static void main(String[] args) {
 
         // 1 创建kafka生产者对象
@@ -16,13 +18,8 @@ public class CustomProducerCallbackWithCustomPartitioner {
 
 
         // 2 发送数据
-        for (int i = 0; i < 500; i++) {
-            stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i), (recordMetadata, e) -> {
-                if (e == null){
-                    System.out.println("topic is = "+recordMetadata.topic()+" partition = "+ recordMetadata.partition());
-                }
-
-            });
+        for (int i = 0; i < 5; i++) {
+            stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i));
         }
 
         // 3 关闭资源
@@ -41,6 +38,9 @@ public class CustomProducerCallbackWithCustomPartitioner {
 
         // 在这边设置自定义的Partitioner
         properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,MyPartitioner.class.getName());
+
+        // 配置 acks ps 这个只能是String类型，不能说Integer类型
+        properties.put(ProducerConfig.ACKS_CONFIG,"-1");
 
         return new KafkaProducer<>(properties);
     }
