@@ -1,4 +1,4 @@
-package org.gzc.kafka;
+package org.gzc.kafka.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -28,7 +28,7 @@ public class CustomProducerTranactions {
         try{
             // 2 发送数据
             for (int i = 0; i < 5; i++) {
-                stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i));
+                stringStringKafkaProducer.send(new ProducerRecord<>("first", "Hello" + i));
             }
             stringStringKafkaProducer.commitTransaction();
         }catch (Exception e){

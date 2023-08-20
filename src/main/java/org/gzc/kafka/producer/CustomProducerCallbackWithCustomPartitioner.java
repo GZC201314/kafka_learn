@@ -1,4 +1,4 @@
-package org.gzc.kafka;
+package org.gzc.kafka.producer;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -17,7 +17,7 @@ public class CustomProducerCallbackWithCustomPartitioner {
 
         // 2 发送数据
         for (int i = 0; i < 500; i++) {
-            stringStringKafkaProducer.send(new ProducerRecord<>("GZC", "Hello" + i), (recordMetadata, e) -> {
+            stringStringKafkaProducer.send(new ProducerRecord<>("first", "Hello" + i), (recordMetadata, e) -> {
                 if (e == null){
                     System.out.println("topic is = "+recordMetadata.topic()+" partition = "+ recordMetadata.partition());
                 }
